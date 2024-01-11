@@ -22,6 +22,7 @@ const DatabaseScreen = () => {
 
   const handleAddItem = async () => {
     // Dodaj nowy element do bazy danych
+    console.log("Dodano produkt")
     await addItem('New Item');
     refreshData();
   };
@@ -39,8 +40,8 @@ const DatabaseScreen = () => {
 
   return (
     <View>
-
-
+      <Button title="Add Item" onPress={handleAddItem} />
+      <Button title="handle Clear Database" onPress={handleClearDatabase} />
 
 
       <Button title="Clear Database" onPress={clearDatabase} />

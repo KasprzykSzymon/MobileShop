@@ -181,4 +181,23 @@ const clearDatabase = () => {
   });
 };
 
-export { initDatabase, addItem, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUser, deleteUser, clearDatabase  };
+const getUserByUsername = (username, password) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM users WHERE username = ? AND password = ?',
+        [username, password],
+        (_, results) => {
+          resolve(results.rows.raw()[0]); // Return the first user (there should be at most one)
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
+
+
+export { initDatabase, addItem, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUser, deleteUser, clearDatabase, getUserByUsername  };

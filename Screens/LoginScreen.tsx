@@ -1,27 +1,41 @@
 // LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import {getUserByUsername} from '../database';
 
-const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+const LoginScreen = ({ navigation }) => {
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    // Tutaj możesz dodać logikę logowania
-    console.log(`Logowanie: ${username} / ${password}`);
+  const handleLogin = async () => {
+    if (userName.trim() !== '' && password.trim() !== '') {
+      const user = await getUserByUsername(userName, password);
+      if (user) {
+        Alert.alert('Zalogowano', `Witaj, ${user.username}!`);
+        // Możesz dodać nawigację do ekranu głównego lub innego ekranu po zalogowaniu
+        navigation.navigate('ProfileMenuNavigation');
+      } else {
+        Alert.alert('Błąd logowania', 'Nieprawidłowa nazwa użytkownika lub hasło.');
+      }
+    } else {
+      Alert.alert('Błąd', 'Uzupełnij dane.');
+    }
   };
+
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Logowanie</Text>
-
+      <Text>Login:</Text>
       <TextInput
         style={styles.input}
         placeholder="Nazwa użytkownika"
-        value={username}
-        onChangeText={(text) => setUsername(text)}
+        value={userName}
+        onChangeText={(text) => setUserName(text)}
       />
 
+      <Text>Hasło:</Text>
       <TextInput
         style={styles.input}
         placeholder="Hasło"
@@ -30,9 +44,7 @@ const LoginScreen = () => {
         onChangeText={(text) => setPassword(text)}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Zaloguj się</Text>
-      </TouchableOpacity>
+      <Button title="Zaloguj się" onPress={handleLogin} />
     </View>
   );
 };
@@ -57,17 +69,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     padding: 8,
   },
-  button: {
-    backgroundColor: '#007BFF',
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 16,
-  },
 });
 
 export default LoginScreen;
-

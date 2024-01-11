@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { addUser } from '../database';
+
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
@@ -15,6 +17,7 @@ const RegistrationScreen = () => {
     if (password === password2) {
       // Tutaj możesz dodać logikę rejestracji
       console.log(`Rejestracja: ${username} / ${password} / ${email}`);
+      addUser(username,email,password);
       Alert.alert('Zarejestrowano', 'Pomyślnie zarejestrowano.');
 
       // Przejście bezpośrednio do ekranu Home po pomyślnej rejestracji
@@ -99,3 +102,4 @@ const styles = StyleSheet.create({
 });
 
 export default RegistrationScreen;
+
