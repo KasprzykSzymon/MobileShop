@@ -1,11 +1,15 @@
-// LoginScreen.tsx
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import {getUserByUsername} from '../database';
+import { getUserByUsername } from '../database';
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  useLayoutEffect(() => {
+    // Ustaw pusty tytuł, gdy komponent zostanie zamontowany
+    navigation.setOptions({ title: '' });
+  }, [navigation]);
 
   const handleLogin = async () => {
     if (userName.trim() !== '' && password.trim() !== '') {
@@ -13,7 +17,10 @@ const LoginScreen = ({ navigation }) => {
       if (user) {
         Alert.alert('Zalogowano', `Witaj, ${user.username}!`);
         // Możesz dodać nawigację do ekranu głównego lub innego ekranu po zalogowaniu
-        navigation.navigate('ProfileMenuNavigation');
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'ProfileMenuNavigation' }],
+        });
       } else {
         Alert.alert('Błąd logowania', 'Nieprawidłowa nazwa użytkownika lub hasło.');
       }
@@ -22,30 +29,28 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
-
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Logowanie</Text>
-      <Text>Login:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nazwa użytkownika"
-        value={userName}
-        onChangeText={(text) => setUserName(text)}
-      />
+      <View style={styles.container}>
+        <Text style={styles.title}>Logowanie</Text>
+        <Text>Login:</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Nazwa użytkownika"
+            value={userName}
+            onChangeText={(text) => setUserName(text)}
+        />
 
-      <Text>Hasło:</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Hasło"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
+        <Text>Hasło:</Text>
+        <TextInput
+            style={styles.input}
+            placeholder="Hasło"
+            secureTextEntry
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+        />
 
-      <Button title="Zaloguj się" onPress={handleLogin} />
-    </View>
+        <Button title="Zaloguj się" onPress={handleLogin} />
+      </View>
   );
 };
 
