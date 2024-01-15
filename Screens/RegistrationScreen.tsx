@@ -1,8 +1,8 @@
-// ThirdScreen.tsx
+// RegistrationScreen.tsx
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { addUser } from '../database';
+import { addUser, getAllUsers} from '../database';
 
 
 const RegistrationScreen = () => {
@@ -12,19 +12,57 @@ const RegistrationScreen = () => {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [email, setEmail] = useState('');
+  const handleRegister = async () => {
+    if (username.trim() !== '' && email.trim() !== '' && password.trim() !== '') {
+      if (password === password2) {
+        // Sprawdź, czy użytkownik już istnieje
+        const userExists = await checkUserExists();
+        // Sprawdź, czy email już istnieje
+        const emailExists = await checkEmailExists(email);
 
-  const handleRegister = () => {
-    if (password === password2) {
-      // Tutaj możesz dodać logikę rejestracji
-      console.log(`Rejestracja: ${username} / ${password} / ${email}`);
-      addUser(username,email,password);
-      Alert.alert('Zarejestrowano', 'Pomyślnie zarejestrowano.');
+        if (!userExists) {
+          if(!emailExists){
+            await registerUser();
+          }else{
+            // Jeżeli email istnieje
+            Alert.alert('Błąd', 'email o podanej nazwie już istnieje.');
+          }
 
-      // Przejście bezpośrednio do ekranu Home po pomyślnej rejestracji
+        } else {
+          // Jeśli użytkownik istnieje
+          Alert.alert('Błąd', 'Użytkownik o podanej nazwie już istnieje.');
+        }
+      } else {
+        //Jeźeli hasła nie są takie same
+        Alert.alert('Błąd', 'Hasła nie są takie same. Spróbuj ponownie.');
+      }
+    }else {
+      //Jeżeli nie są wypełnione dane
+      Alert.alert('Błąd', 'Uzupełnij dane.');
+    }
+  };
+  const registerUser = async () => {
+    // Dodanie do bazy danych
+    const result = await addUser(username, email, password);
+
+    if (result) {
+      // Pomyślnie dodano użytkownika
+      Alert.alert('Rejestracja zakończona pomyślnie!');
+
+      // Przenieś się do ekranu logowania
       navigation.navigate('Login');
     } else {
-      Alert.alert('Błąd', 'Hasła nie są takie same. Spróbuj ponownie.');
+      // Błąd podczas dodawania użytkownika
+      Alert.alert('Błąd podczas rejestracji.');
     }
+  };
+  const checkUserExists = async () => {
+    const existingUsers = await getAllUsers();
+    return existingUsers.some(user => user.username === username);
+  };
+  const checkEmailExists = async (email) => {
+    const existingUsers = await getAllUsers();
+    return existingUsers.some(user => user.email === email);
   };
 
   return (

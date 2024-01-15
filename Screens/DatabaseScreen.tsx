@@ -42,8 +42,6 @@ const DatabaseScreen = () => {
     <View>
       <Button title="Add Item" onPress={handleAddItem} />
       <Button title="handle Clear Database" onPress={handleClearDatabase} />
-
-
       <Button title="Clear Database" onPress={clearDatabase} />
     </View>
   );

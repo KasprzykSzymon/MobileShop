@@ -167,7 +167,7 @@ const clearDatabase = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        'DELETE FROM items; DELETE FROM users;',
+        'DELETE FROM users; DELETE FROM users;',
         [],
         (_, results) => {
           resolve(results);
