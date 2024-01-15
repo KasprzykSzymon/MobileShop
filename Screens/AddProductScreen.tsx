@@ -2,24 +2,27 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import db from '../database';
+import {addItem} from '../database';
+import { useUser } from '../UserContext';
 
 const AddProductScreen = ({ navigation }) => {
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState('');
+  const [productPrice, setProductPrice] = useState('');
 
+  const { state } = useUser();
+  const currentUser = state.user;
   const handleAddProduct = async () => {
-    if (productName.trim() !== '' && price.trim() !== '') {
-      const result = await db.addProduct(productName, parseFloat(price));
-
-      if (result.insertId) {
-        Alert.alert('Success', 'Product added successfully.');
-        navigation.navigate('Home');
-      } else {
-        Alert.alert('Error', 'Failed to add product. Please try again.');
+    if (productName.trim() !== '' && productPrice.trim() !== '') {
+      try {
+        const itemId = await addItem(currentUser.id, productName, productPrice);
+        Alert.alert('Sukces', `Produkt dodany do bazy danych! ID: ${itemId}`);
+        setProductName('');
+        setProductPrice('');
+      } catch (error) {
+        Alert.alert('Błąd', 'Wystąpił problem podczas dodawania produktu.');
       }
     } else {
-      Alert.alert('Error', 'Please fill in all fields.');
+      Alert.alert('Błąd', 'Uzupełnij wszystkie pola.');
     }
   };
 
@@ -39,8 +42,8 @@ const AddProductScreen = ({ navigation }) => {
         style={styles.input}
         placeholder="Enter price"
         keyboardType="numeric"
-        value={price}
-        onChangeText={(text) => setPrice(text)}
+        value={productPrice}
+        onChangeText={(text) => setProductPrice(text)}
       />
 
       <Button title="Add Product" onPress={handleAddProduct} />

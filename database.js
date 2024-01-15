@@ -13,7 +13,7 @@ const db = SQLite.openDatabase(
 const initDatabase = () => {
   db.transaction(tx => {
     tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)'
+      'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, price REAL)',
     );
 
     tx.executeSql(
@@ -23,12 +23,12 @@ const initDatabase = () => {
 };
 
 // Dodaj element do bazy danych
-const addItem = name => {
+const addItem = (userId, name, price) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        'INSERT INTO items (name) VALUES (?)',
-        [name],
+        'INSERT INTO items (user_id, name, price) VALUES (?, ?, ?)',
+        [userId, name, price],
         (_, results) => {
           resolve(results.insertId);
         },
@@ -129,6 +129,23 @@ const getAllUsers = () => {
   });
 };
 
+const updateUserPassword = async (userId, newPassword) => {
+  try {
+    return new Promise((resolve, reject) => {
+      db.transaction(tx => {
+        tx.executeSql('UPDATE users SET password = ? WHERE id = ?', [newPassword, userId], (_, results) => {
+          resolve(results.rowsAffected);
+        }, error => {
+          reject(error);
+        });
+      });
+    });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    throw error;
+  }
+};
+
 const updateUser = (id, username, email, password) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -167,7 +184,7 @@ const clearDatabase = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        'DELETE FROM users; DELETE FROM users;',
+        'DELETE FROM Items; DELETE FROM users;',
         [],
         (_, results) => {
           resolve(results);
@@ -200,4 +217,4 @@ const getUserByUsername = (username, password) => {
 
 
 
-export { initDatabase, addItem, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUser, deleteUser, clearDatabase, getUserByUsername  };
+export { initDatabase, addItem, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUserPassword, updateUser, deleteUser, clearDatabase, getUserByUsername  };

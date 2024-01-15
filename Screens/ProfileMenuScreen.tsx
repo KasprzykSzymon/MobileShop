@@ -3,9 +3,10 @@
 import React from 'react';
 import { View,Button, Alert} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
+import { CommonActions } from '@react-navigation/native';
 import {deleteUser} from "../database";
 
-const ProfileMenuScreen =  () => {
+const ProfileMenuScreen = () => {
   const navigation = useNavigation();
   const navigateToChangePassword = () => {
     navigation.navigate('ChangePassword');
@@ -14,10 +15,14 @@ const ProfileMenuScreen =  () => {
     navigation.navigate('AddProduct');
   };
 
-  const wyloguj = () => {
-    navigation.navigate('Login');
-    navigation.goBack();
-  }
+  const wyloguj = async () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'Profile' }],
+      })
+    );
+  };
 
   const handleDeleteAccount = () => {
     // Display a confirmation alert
