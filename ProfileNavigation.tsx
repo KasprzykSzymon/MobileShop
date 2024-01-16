@@ -13,16 +13,16 @@ const Stack = createStackNavigator();
 const ProfileNavigation = () => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Registration" component={RegistrationScreen} />
+            <Stack.Screen name="Ekran profilu" component={ProfileScreen} />
+            <Stack.Screen name="Ekran logowania" component={LoginScreen} />
+            <Stack.Screen name="Ekran rejestracji" component={RegistrationScreen} />
           <Stack.Screen
-            name="ProfileMenu"
+            name="Menu profilu"
             component={ProfileMenuScreen}
             options={{ headerLeft: () => null, }}// Ukryj przycisk powrotu
           />
-          <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
-          <Stack.Screen name="AddProduct" component={AddProductScreen} />
+          <Stack.Screen name="Ekran zmiany hasła" component={ChangePasswordScreen} />
+          <Stack.Screen name="Ekran dodania produktu" component={AddProductScreen} />
         </Stack.Navigator>
     );
 };

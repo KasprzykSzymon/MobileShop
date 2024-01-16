@@ -7,11 +7,11 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
 
   const navigateToLogin = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Ekran logowania');
   };
 
   const navigateToRegistration = () => {
-    navigation.navigate('Registration');
+    navigation.navigate('Ekran rejestracji');
   };
 
   return (

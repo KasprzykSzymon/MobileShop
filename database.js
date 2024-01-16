@@ -12,23 +12,31 @@ const db = SQLite.openDatabase(
 // Inicjalizacja bazy danych
 const initDatabase = () => {
   db.transaction(tx => {
-    tx.executeSql(
-      'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, price REAL)',
-    );
+    // jeżeli chcesz usunąć bazę danych przedmiotów
+    // tx.executeSql('DROP TABLE IF EXISTS items');
 
     tx.executeSql(
+      //Trorzy w bazie danych miejsce na przedmioty
+      'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, price REAL, description TEXT)',
+    );
+
+    //jeżeli chcesz usunąć bazę danych użytkowniktów
+    // tx.executeSql('DROP TABLE IF EXISTS users');
+
+    tx.executeSql(
+      //Trorzy w bazie danych miejsce na użytkowniktó
       'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)'
     );
   });
 };
 
 // Dodaj element do bazy danych
-const addItem = (userId, name, price) => {
+const addItem = (userId, name, price, itemDescription) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
       tx.executeSql(
-        'INSERT INTO items (user_id, name, price) VALUES (?, ?, ?)',
-        [userId, name, price],
+        'INSERT INTO items (user_id, name, price, description) VALUES (?, ?, ?, ?)',
+        [userId, name, price, itemDescription],
         (_, results) => {
           resolve(results.insertId);
         },

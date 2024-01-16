@@ -1,26 +1,22 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { useUser } from '../UserContext';
 import { getUserByUsername } from '../database';
 
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  useLayoutEffect(() => {
-    // Ustaw pusty tytuł, gdy komponent zostanie zamontowany
-    navigation.setOptions({ title: '' });
-  }, [navigation]);
+  const { dispatch } = useUser();
 
   const handleLogin = async () => {
     if (userName.trim() !== '' && password.trim() !== '') {
       const user = await getUserByUsername(userName, password);
       if (user) {
         Alert.alert('Zalogowano', `Witaj, ${user.username}!`);
+        dispatch({ type: 'SET_USER', payload: user });
         // Możesz dodać nawigację do ekranu głównego lub innego ekranu po zalogowaniu
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'ProfileMenuNavigation' }],
-        });
+        navigation.navigate("Menu profilu")
       } else {
         Alert.alert('Błąd logowania', 'Nieprawidłowa nazwa użytkownika lub hasło.');
       }

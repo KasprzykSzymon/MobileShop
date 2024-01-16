@@ -2,72 +2,61 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import db from '../database';
+import { useUser } from '../UserContext';
+import { updateUserPassword } from '../database';
 
 const ChangePasswordScreen = ({ navigation }) => {
-    const [username, setUsername] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [newPassword2, setNewPassword2] = useState('');
 
+    const { state } = useUser();
+    const zalogowanyUzytkownik = state.user;
     const handleChangePassword = async () => {
-        if (username.trim() !== '' && currentPassword.trim() !== '' && newPassword.trim() !== '') {
-            const user = await db.getUserByUsername(username);
-
-            if (user) {
-                // User found, now verify current password
-                const passwordMatch = await db.verifyPassword(currentPassword, user.hashedPassword);
-
-                if (passwordMatch) {
-                    // Current password is correct, proceed with changing the password
-                    const result = await db.updateUserPassword(user.id, newPassword);
-
-                    if (result.rowsAffected > 0) {
-                        Alert.alert('Success', 'Password changed successfully.');
-                        navigation.navigate('Login');
-                    } else {
-                        Alert.alert('Error', 'Failed to change password. Please try again.');
-                    }
-                } else {
-                    Alert.alert('Error', 'Current password is incorrect.');
-                }
+        if (currentPassword.trim() !== '' && newPassword.trim() !== '') {
+            if (currentPassword === zalogowanyUzytkownik.password) {
+                // Aktualizuj hasło w bazie danych
+                await updateUserPassword(zalogowanyUzytkownik.id, newPassword);
+                Alert.alert('Sukces', 'Hasło zostało pomyślnie zmienione.');
+                navigation.navigate('Ekran logowania');
             } else {
-                Alert.alert('Error', 'User not found.');
+                Alert.alert('Błąd', 'Aktualne hasło jest nieprawidłowe.');
             }
         } else {
-            Alert.alert('Error', 'Please fill in all fields.');
+            Alert.alert('Error', 'Uzupełnij puste pola');
         }
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Change Password</Text>
-            <Text>Username:</Text>
+            <Text>Aktualne hasło:</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Enter username"
-                value={username}
-                onChangeText={(text) => setUsername(text)}
-            />
-
-            <Text>Current Password:</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Enter current password"
+                placeholder="Wpisz aktualne hasło"
                 secureTextEntry
                 value={currentPassword}
                 onChangeText={(text) => setCurrentPassword(text)}
             />
 
-            <Text>New Password:</Text>
+            <Text>Nowe hasło:</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Enter new password"
+                placeholder="Wpisz nowe hasło"
                 secureTextEntry
                 value={newPassword}
                 onChangeText={(text) => setNewPassword(text)}
             />
 
-            <Button title="Change Password" onPress={handleChangePassword} />
+            <Text>Powtórz nowe hasło:</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Powtórz nowe hasło"
+                secureTextEntry
+                value={newPassword2}
+                onChangeText={(text) => setNewPassword2(text)}
+            />
+
+            <Button title="Zmień hasło" onPress={handleChangePassword} />
         </View>
     );
 };
