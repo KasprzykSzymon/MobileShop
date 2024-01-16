@@ -50,7 +50,7 @@ const RegistrationScreen = () => {
       Alert.alert('Rejestracja zakończona pomyślnie!');
 
       // Przenieś się do ekranu logowania
-      navigation.navigate('Login');
+      navigation.navigate('Ekran logowania');
     } else {
       // Błąd podczas dodawania użytkownika
       Alert.alert('Błąd podczas rejestracji.');
