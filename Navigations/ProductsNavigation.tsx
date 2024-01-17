@@ -1,8 +1,8 @@
 // AppNavigator.tsx
 import React from 'react';
-import ProductsListScreen from './Screens/ProductsListScreen';
+import ProductsListScreen from '../Screens/ProductsListScreen';
 import { createStackNavigator } from "@react-navigation/stack";
-import ProductDetailScreen from  './Screens/ProductDetailScreen';
+import ProductDetailScreen from '../Screens/ProductDetailScreen';
 
 const Stack = createStackNavigator();
 

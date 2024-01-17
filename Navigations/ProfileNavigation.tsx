@@ -1,11 +1,11 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProfileScreen from './Screens/ProfileScreen';
-import LoginScreen from './Screens/LoginScreen';
-import RegistrationScreen from './Screens/RegistrationScreen';
-import ProfileMenuScreen from "./Screens/ProfileMenuScreen";
-import ChangePasswordScreen from "./Screens/ChangePasswordScreen";
-import AddProductScreen from "./Screens/AddProductScreen";
+import ProfileScreen from '../Screens/ProfileScreen';
+import LoginScreen from '../Screens/LoginScreen';
+import RegistrationScreen from '../Screens/RegistrationScreen';
+import ProfileMenuScreen from "../Screens/ProfileMenuScreen";
+import ChangePasswordScreen from "../Screens/ChangePasswordScreen";
+import AddProductScreen from "../Screens/AddProductScreen";
 // import CameraComponent from "./Screens/CameraComponent";
 
 

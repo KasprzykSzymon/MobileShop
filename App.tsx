@@ -2,10 +2,10 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import HomeScreen from './Screens/HomeScreen'; // Importuje ekran domowy
+import HomeScreen from './Screens/HomeScreen';
 import DatabaseScreen from './Screens/DatabaseScreen';
-import ProfileNavigation from './ProfileNavigation'; // Importuje nawigacje profilową z jej ekranami
-import ProductsNavigator from './ProductsNavigation';
+import ProfileNavigation from './Navigations/ProfileNavigation';
+import ProductsNavigator from './Navigations/ProductsNavigation';
 import { UserProvider } from './UserContext';
 
 const Tab = createMaterialBottomTabNavigator();
