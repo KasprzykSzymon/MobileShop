@@ -1,32 +1,20 @@
 // ProductsListScreen.tsx
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, RefreshControl, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAllItems } from '../database';
-
 const ProductsListScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-
   useEffect(() => {
-    // Pobierz listę produktów z bazy danych przy załadowaniu ekranu
-    fetchProducts();
+    fetchProducts(); // Pobierz listę produktów z bazy danych przy załadowaniu ekranu (działa po wylogowaniu użytkownika)
   }, []);
-
   const fetchProducts = async () => {
     try {
       const items = await getAllItems();
-      // console.log(items);
       setProducts(items);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Problem z odświeżeniem:', error);
     }
   };
-  const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await fetchProducts();
-    setRefreshing(false);
-  }, []);
-
   const renderProductItem = ({ item }) => (
     <TouchableOpacity
       style={styles.productItem}
@@ -37,7 +25,6 @@ const ProductsListScreen = ({ navigation }) => {
       </View>
     </TouchableOpacity>
   );
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Lista Produktów</Text>
@@ -49,7 +36,6 @@ const ProductsListScreen = ({ navigation }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -68,5 +54,4 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
 });
-
 export default ProductsListScreen;

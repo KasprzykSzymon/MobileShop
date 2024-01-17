@@ -1,14 +1,12 @@
+//LoginScreen.tsx
 import React, { useState, useLayoutEffect } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import { useUser } from '../UserContext';
 import { getUserByUsername } from '../database';
-
 const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
   const { dispatch } = useUser();
-
   const handleLogin = async () => {
     if (userName.trim() !== '' && password.trim() !== '') {
       const user = await getUserByUsername(userName, password);
@@ -24,32 +22,30 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert('Błąd', 'Uzupełnij dane.');
     }
   };
-
   return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Logowanie</Text>
-        <Text>Login:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Nazwa użytkownika"
-            value={userName}
-            onChangeText={(text) => setUserName(text)}
-        />
+    <View style={styles.container}>
+      <Text style={styles.title}>Logowanie</Text>
+      <Text>Login:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nazwa użytkownika"
+        value={userName}
+        onChangeText={(text) => setUserName(text)}
+      />
 
-        <Text>Hasło:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Hasło"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-        />
+      <Text>Hasło:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Hasło"
+        secureTextEntry
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+      />
 
-        <Button title="Zaloguj się" onPress={handleLogin} />
-      </View>
+      <Button title="Zaloguj się" onPress={handleLogin} />
+    </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

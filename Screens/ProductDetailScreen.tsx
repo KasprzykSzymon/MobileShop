@@ -1,14 +1,11 @@
 // ProductDetailScreen.tsx
-
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getProductById } from '../database';
-
+import { getProductById } from '../database';  //pobranie danych produktu poprzez ID
 const ProductDetailScreen = ({ route }) => {
   const [product, setProduct] = useState({});
   const [cartItems, setCartItems] = useState([]);
   // const [reviews, setReviews] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
         const Product = await getProductById(route.params.productId);
@@ -16,32 +13,27 @@ const ProductDetailScreen = ({ route }) => {
     };
     fetchData();
   }, [route.params.productId]);
-
+  //Zaczęta funkcja od dodawania produktu do koszyka
   const addToCart = () => {
     // Dodaj produkt do koszyka
     const newCartItem = {
       id: product.id,
       name: product.name,
       price: product.price,
-      quantity: 1, // Możesz dostosować, jak chcesz obsługiwać ilość
+      quantity: 1,
     };
-
     setCartItems([...cartItems, newCartItem]);
   };
-
   // const addReview = (review) => {
   //   // Dodaj opinię do recenzji
   //   setReviews([...reviews, review]);
   // };
-
   return (
     <View style={styles.container}>
       <Text style={styles.productName}>{product.name}</Text>
       <Text style={styles.productPrice}>Price: {product.price} PLN</Text>
       <Text style={styles.productDescription}>{product.description}</Text>
-
       {/*<Button title="Add to Cart" onPress={addToCart} />*/}
-
       <View style={styles.reviewsContainer}>
         {/*<Text style={styles.reviewsTitle}>Product Reviews</Text>*/}
         {/*/!* Wyświetl opinie *!/*/}
@@ -54,7 +46,6 @@ const ProductDetailScreen = ({ route }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -86,5 +77,4 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
 });
-
 export default ProductDetailScreen;

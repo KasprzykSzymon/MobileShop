@@ -1,5 +1,4 @@
 // database.js
-
 import SQLite from 'react-native-sqlite-storage';
 
 // Otwórz połączenie z bazą danych
@@ -8,28 +7,23 @@ const db = SQLite.openDatabase(
   () => console.log('Database opened'),
   error => console.error('Error opening database', error)
 );
-
 // Inicjalizacja bazy danych
 const initDatabase = () => {
   db.transaction(tx => {
     // jeżeli chcesz usunąć bazę danych przedmiotów
     // tx.executeSql('DROP TABLE IF EXISTS items');
-
     tx.executeSql(
       //Trorzy w bazie danych miejsce na przedmioty
       'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, name TEXT, price REAL, description TEXT)',
     );
-
     //jeżeli chcesz usunąć bazę danych użytkowniktów
     // tx.executeSql('DROP TABLE IF EXISTS users');
-
     tx.executeSql(
       //Trorzy w bazie danych miejsce na użytkowniktów
       'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)'
     );
   });
 };
-
 // Dodaj element do bazy danych
 const addItem = (userId, name, price, itemDescription) => {
   return new Promise((resolve, reject) => {
@@ -47,7 +41,6 @@ const addItem = (userId, name, price, itemDescription) => {
     });
   });
 };
-
 const getProductById = (productId) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -65,7 +58,6 @@ const getProductById = (productId) => {
     });
   });
 };
-
 // Pobierz wszystkie elementy z bazy danych
 const getAllItems = () => {
   return new Promise((resolve, reject) => {
@@ -83,7 +75,6 @@ const getAllItems = () => {
     });
   });
 };
-
 // Aktualizuj element w bazie danych
 const updateItem = (id, name) => {
   return new Promise((resolve, reject) => {
@@ -101,7 +92,6 @@ const updateItem = (id, name) => {
     });
   });
 };
-
 // Usuń element z bazy danych
 const deleteItem = id => {
   return new Promise((resolve, reject) => {
@@ -119,8 +109,6 @@ const deleteItem = id => {
     });
   });
 };
-
-
 const addUser = (username, email, password) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -137,7 +125,6 @@ const addUser = (username, email, password) => {
     });
   });
 };
-
 const getAllUsers = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -154,7 +141,6 @@ const getAllUsers = () => {
     });
   });
 };
-
 const updateUserPassword = async (userId, newPassword) => {
   try {
     return new Promise((resolve, reject) => {
@@ -171,7 +157,6 @@ const updateUserPassword = async (userId, newPassword) => {
     throw error;
   }
 };
-
 const updateUser = (id, username, email, password) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -188,7 +173,6 @@ const updateUser = (id, username, email, password) => {
     });
   });
 };
-
 const deleteUser = id => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -205,7 +189,6 @@ const deleteUser = id => {
     });
   });
 };
-
 const clearDatabase = () => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -223,7 +206,6 @@ const clearDatabase = () => {
 
   });
 };
-
 const getUserByUsername = (username, password) => {
   return new Promise((resolve, reject) => {
     db.transaction(tx => {
@@ -240,7 +222,4 @@ const getUserByUsername = (username, password) => {
     });
   });
 };
-
-
-
 export { initDatabase, addItem, getProductById, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUserPassword, updateUser, deleteUser, clearDatabase, getUserByUsername  };

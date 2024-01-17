@@ -1,8 +1,8 @@
-// AppNavigator.tsx
+// ProductsNavigator.tsx
 import React from 'react';
-import ProductsListScreen from '../Screens/ProductsListScreen';
-import { createStackNavigator } from "@react-navigation/stack";
-import ProductDetailScreen from '../Screens/ProductDetailScreen';
+import { createStackNavigator } from "@react-navigation/stack";  //stworzenie nawigacji stack
+import ProductDetailScreen from '../Screens/ProductDetailScreen';  //ekran opisu produktu
+import ProductsListScreen from '../Screens/ProductsListScreen';  //ekran listy produktów
 
 const Stack = createStackNavigator();
 

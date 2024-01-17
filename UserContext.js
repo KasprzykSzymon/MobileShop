@@ -1,11 +1,8 @@
 import React, { createContext, useReducer, useContext } from 'react';
-
 const UserContext = createContext();
-
 const initialState = {
   user: null,
 };
-
 const userReducer = (state, action) => {
   switch (action.type) {
     case 'SET_USER':
@@ -14,7 +11,6 @@ const userReducer = (state, action) => {
       return state;
   }
 };
-
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
@@ -24,7 +20,6 @@ const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-
 const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
@@ -32,5 +27,4 @@ const useUser = () => {
   }
   return context;
 };
-
 export { UserProvider, useUser };

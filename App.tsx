@@ -1,18 +1,15 @@
-// App.js
+// App.tsx
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native'; //Pobranie nawigacji
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 // import HomeScreen from './Screens/HomeScreen';           //ekran podglądu urzytkowników i produktów
 // import DatabaseScreen from './Screens/DatabaseScreen';   //ekran do resetu bazy danych
-import ProfileNavigation from './Navigations/ProfileNavigation';
-import ProductsNavigator from './Navigations/ProductsNavigation';
-import { UserProvider } from './UserContext';
+import ProfileNavigation from './Navigations/ProfileNavigation'; //Nawigacja Profilu
+import ProductsNavigator from './Navigations/ProductsNavigation'; //Nawigacja Produktu
+import { UserProvider } from './UserContext';                     //Implementacja sprawdzania użytkownika
 
-const Tab = createMaterialBottomTabNavigator();
-
-
+const Tab = createMaterialBottomTabNavigator(); //implementacja nawigacji
 const App = () => {
-
   return (
     <UserProvider>
       <NavigationContainer>
@@ -27,5 +24,4 @@ const App = () => {
 
   );
 };
-
 export default App;

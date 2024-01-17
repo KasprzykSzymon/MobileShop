@@ -3,11 +3,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { addUser, getAllUsers} from '../database';
-
-
 const RegistrationScreen = () => {
   const navigation = useNavigation();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
@@ -19,7 +16,6 @@ const RegistrationScreen = () => {
         const userExists = await checkUserExists();
         // Sprawdź, czy email już istnieje
         const emailExists = await checkEmailExists(email);
-
         if (!userExists) {
           if(!emailExists){
             await registerUser();
@@ -27,7 +23,6 @@ const RegistrationScreen = () => {
             // Jeżeli email istnieje
             Alert.alert('Błąd', 'email o podanej nazwie już istnieje.');
           }
-
         } else {
           // Jeśli użytkownik istnieje
           Alert.alert('Błąd', 'Użytkownik o podanej nazwie już istnieje.');
@@ -44,11 +39,9 @@ const RegistrationScreen = () => {
   const registerUser = async () => {
     // Dodanie do bazy danych
     const result = await addUser(username, email, password);
-
     if (result) {
       // Pomyślnie dodano użytkownika
       Alert.alert('Rejestracja zakończona pomyślnie!');
-
       // Przenieś się do ekranu logowania
       navigation.navigate('Ekran logowania');
     } else {
@@ -64,18 +57,15 @@ const RegistrationScreen = () => {
     const existingUsers = await getAllUsers();
     return existingUsers.some(user => user.email === email);
   };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Rejestracja</Text>
-
       <TextInput
         style={styles.input}
         placeholder="Nazwa użytkownika"
         value={username}
         onChangeText={(text) => setUsername(text)}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Adres email"
@@ -83,7 +73,6 @@ const RegistrationScreen = () => {
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Hasło"
@@ -91,7 +80,6 @@ const RegistrationScreen = () => {
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Powtórz hasło"
@@ -99,14 +87,12 @@ const RegistrationScreen = () => {
         value={password2}
         onChangeText={(text) => setPassword2(text)}
       />
-
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Zarejestruj się</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -138,6 +124,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
 export default RegistrationScreen;
 

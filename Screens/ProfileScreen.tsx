@@ -2,18 +2,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 const ProfileScreen = () => {
   const navigation = useNavigation();
-
   const navigateToLogin = () => {
     navigation.navigate('Ekran logowania');
   };
-
   const navigateToRegistration = () => {
     navigation.navigate('Ekran rejestracji');
   };
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Twój Profil</Text>
@@ -32,7 +28,6 @@ const ProfileScreen = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

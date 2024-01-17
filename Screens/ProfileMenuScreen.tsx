@@ -4,7 +4,6 @@ import { View,Button, Alert} from 'react-native';
 import { useNavigation, CommonActions } from "@react-navigation/native";
 import { useUser } from '../UserContext';
 import {deleteUser} from "../database";
-
 const ProfileMenuScreen = () => {
   const { state } = useUser();
   const currentId = state.user.id;
@@ -15,7 +14,6 @@ const ProfileMenuScreen = () => {
   const navigateToAddProduct = () => {
     navigation.navigate('Ekran dodania produktu');
   };
-
   const wyloguj = async () => {
     navigation.dispatch(
       CommonActions.reset({
@@ -24,7 +22,6 @@ const ProfileMenuScreen = () => {
       })
     );
   };
-
   const handleDeleteAccount = () => {
     // Display a confirmation alert
     Alert.alert(
@@ -43,17 +40,12 @@ const ProfileMenuScreen = () => {
       { cancelable: false }
     );
   };
-
   const confirmDeleteAccount = async () => {
     try {
-      // Implement the logic to delete the account from the database
-      const userId = currentId; // Replace with the actual user ID or obtain it from your authentication state
+      const userId = currentId;
       const rowsAffected = await deleteUser(userId);
-
       if (rowsAffected > 0) {
-        // Account deleted successfully
         Alert.alert('Usunięto konto', 'Twoje konto zostału usunięte.');
-        // Przeniesienie do ekranu logowania
         navigation.navigate('Ekran logowania');
       } else {
         // Błąd usuwania konta
@@ -72,5 +64,4 @@ const ProfileMenuScreen = () => {
     </View>
   );
 };
-
 export default ProfileMenuScreen;

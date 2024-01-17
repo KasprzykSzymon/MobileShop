@@ -1,14 +1,13 @@
+//ProfileNavigation.tsx
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProfileScreen from '../Screens/ProfileScreen';
-import LoginScreen from '../Screens/LoginScreen';
-import RegistrationScreen from '../Screens/RegistrationScreen';
-import ProfileMenuScreen from "../Screens/ProfileMenuScreen";
-import ChangePasswordScreen from "../Screens/ChangePasswordScreen";
-import AddProductScreen from "../Screens/AddProductScreen";
-// import CameraComponent from "./Screens/CameraComponent";
-
-
+import ProfileScreen from '../Screens/ProfileScreen'; //ekran wyboru logowania się i rejestracji
+import LoginScreen from '../Screens/LoginScreen';     //ekran logowania
+import RegistrationScreen from '../Screens/RegistrationScreen';  //ekran rejestracji
+import ProfileMenuScreen from "../Screens/ProfileMenuScreen";     //ekran menu po zalogowaniu
+import ChangePasswordScreen from "../Screens/ChangePasswordScreen";  //ekran zmiany hasła dla użytkownika
+import AddProductScreen from "../Screens/AddProductScreen";     //ekran dodawania produktu
+// import CameraComponent from "./Screens/CameraComponent";     //próba ekranu dodającego sensor kamery
 const Stack = createStackNavigator();
 
 const ProfileNavigation = () => {
