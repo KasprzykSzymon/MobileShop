@@ -1,10 +1,11 @@
 // ProductsListScreen.tsx
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, FlatList, RefreshControl, TouchableOpacity, StyleSheet } from 'react-native';
 import { getAllItems } from '../database';
 
 const ProductsListScreen = ({ navigation }) => {
   const [products, setProducts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     // Pobierz listę produktów z bazy danych przy załadowaniu ekranu
@@ -20,18 +21,20 @@ const ProductsListScreen = ({ navigation }) => {
       console.error('Error fetching products:', error);
     }
   };
-
-  const navigateToProductDetail = (productId) => {
-    // Przejdź do ekranu szczegółów produktu
-    navigation.navigate('ProductDetail', { productId });
-  };
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchProducts();
+    setRefreshing(false);
+  }, []);
 
   const renderProductItem = ({ item }) => (
     <TouchableOpacity
       style={styles.productItem}
-      onPress={() => navigateToProductDetail(item.id)}
-    >
-      <Text>{item.name}</Text>
+      onPress={() => navigation.navigate('Ekran opisu produktu', { productId: item.id })
+    }>
+      <View>
+        <Text>{item.name}</Text>
+      </View>
     </TouchableOpacity>
   );
 

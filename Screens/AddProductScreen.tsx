@@ -1,23 +1,29 @@
 // AddProductScreen.tsx
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import {addItem} from '../database';
+import { View, Text, TextInput, Button, Alert, StyleSheet, Image } from 'react-native';
+import { addItem } from '../database';
 import { useUser } from '../UserContext';
 
 const AddProductScreen = ({ navigation }) => {
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState('');
+  const [productDescription, setProductDescription] = useState('');
+  // const [selectedImage, setSelectedImage] = useState(null);
 
   const { state } = useUser();
   const currentUser = state.user;
+
   const handleAddProduct = async () => {
     if (productName.trim() !== '' && productPrice.trim() !== '') {
       try {
-        const itemId = await addItem(currentUser.id, productName, productPrice);
+        const itemId = await addItem(currentUser.id, productName, productPrice, productDescription);
         Alert.alert('Sukces', `Produkt dodany do bazy danych! ID: ${itemId}`);
         setProductName('');
         setProductPrice('');
+        setProductDescription('');
+        // setSelectedImage(null);
+        navigation.navigate("Menu profilu");
       } catch (error) {
         Alert.alert('Błąd', 'Wystąpił problem podczas dodawania produktu.');
       }
@@ -26,27 +32,46 @@ const AddProductScreen = ({ navigation }) => {
     }
   };
 
+  // const handleOpenCamera = async () => {
+  //   navigation.navigate("Ekran aparatu");
+  //
+  // };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Product</Text>
-      <Text>Product Name:</Text>
+      <Text style={styles.title}>Dodaj Produkt</Text>
+
+      {/*{selectedImage && (*/}
+      {/*  <Image source={{ uri: selectedImage.path }} style={styles.imagePreview} />*/}
+      {/*)}*/}
+
+      <Text>Nazwa produktu:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter product name"
+        placeholder="Wpisz nazwę produktu"
         value={productName}
         onChangeText={(text) => setProductName(text)}
       />
 
-      <Text>Price:</Text>
+      <Text>Cena:</Text>
       <TextInput
         style={styles.input}
-        placeholder="Enter price"
+        placeholder="Wpisz cenę"
         keyboardType="numeric"
         value={productPrice}
         onChangeText={(text) => setProductPrice(text)}
       />
 
-      <Button title="Add Product" onPress={handleAddProduct} />
+      <Text>Opis:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Wpisz opis produktu"
+        value={productDescription}
+        onChangeText={(text) => setProductDescription(text)}
+      />
+
+      {/*<Button title="Dodaj zdjęcie z aparatu" onPress={handleOpenCamera} />*/}
+      <Button title="Dodaj produkt" onPress={handleAddProduct} />
     </View>
   );
 };
@@ -70,6 +95,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     padding: 8,
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    marginBottom: 12,
   },
 });
 

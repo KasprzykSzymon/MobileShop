@@ -24,7 +24,7 @@ const initDatabase = () => {
     // tx.executeSql('DROP TABLE IF EXISTS users');
 
     tx.executeSql(
-      //Trorzy w bazie danych miejsce na użytkowniktó
+      //Trorzy w bazie danych miejsce na użytkowniktów
       'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email TEXT, password TEXT)'
     );
   });
@@ -39,6 +39,24 @@ const addItem = (userId, name, price, itemDescription) => {
         [userId, name, price, itemDescription],
         (_, results) => {
           resolve(results.insertId);
+        },
+        error => {
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
+const getProductById = (productId) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(tx => {
+      tx.executeSql(
+        'SELECT * FROM items WHERE id = ?',
+        [productId],
+        (_, results) => {
+          const product = results.rows.raw()[0];
+          resolve(product);
         },
         error => {
           reject(error);
@@ -225,4 +243,4 @@ const getUserByUsername = (username, password) => {
 
 
 
-export { initDatabase, addItem, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUserPassword, updateUser, deleteUser, clearDatabase, getUserByUsername  };
+export { initDatabase, addItem, getProductById, getAllItems, updateItem, deleteItem, addUser, getAllUsers, updateUserPassword, updateUser, deleteUser, clearDatabase, getUserByUsername  };
