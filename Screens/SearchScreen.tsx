@@ -12,8 +12,6 @@ const SearchScreen = () => {
 
   const handleRegister = () => {
     if (password === password2) {
-      // Tutaj możesz dodać logikę rejestracji
-      console.log(`Rejestracja: ${username} / ${password} / ${password2}`);
       Alert.alert('Zarejestrowano', 'Pomyślnie dodano konto.');
       navigation.goBack()
       navigation.navigate('LoginScreen'); // Przeniesienie do ekranu logowania
